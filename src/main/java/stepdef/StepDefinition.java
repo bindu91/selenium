@@ -1,16 +1,20 @@
 package stepdef;
 
 import java.awt.AWTException;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -49,8 +53,8 @@ public class StepDefinition {
 		//  chrome driver
 		report = new ExtentReports(System.getProperty("user.dir")+"\\ExtentReportResults.html");
 		WebDriverManager.chromedriver().setup();
-//		ChromeOptions options = new ChromeOptions();
-//		options.addArguments("headless");
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("headless");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		test = report.startTest("Login verification");
@@ -1202,9 +1206,9 @@ public void switch_to_child_window_and_enter_the_skill_and_location_as_chennai_c
 	 driver.findElement(By.xpath("//button[@id='qsbFormBtn']")).click();
 	 Thread.sleep(1000);
 	 driver.findElement(By.xpath("//div[@class='DDsearch']")).click();
-	 driver.findElement(By.xpath("//div[@id='dp_filter-freshness']//div//ul//li[4]")).click();
+//	 driver.findElement(By.xpath("//div[@id='dp_filter-freshness']//div//ul//li[4]")).click();
 	 Thread.sleep(1000);
-	 driver.findElement(By.xpath("//div[@class='filterOptns']//span[text()='Chennai']")).click();
+//	 driver.findElement(By.xpath("//div[@class='filterOptns']//span[text()='Chennai']")).click();
 	
 }
 
@@ -1218,30 +1222,90 @@ public void select_the_filter_as_last_days_and_check_the_location_as_chennai(Int
 
 
 
-@When("scroll down and click on next button  till disapear")
-public void scroll_down_and_click_on_next_button_till_disapear() {
+@When("scroll down and click on next button  till disapears and click on last link")
+public void naukri_profile_link() throws InterruptedException {
     
 	
 	
 	WebElement next = driver.findElement(By.xpath("//span[text()='Next']"));
 	 try {
 		while (next.isEnabled()) {
+			
 			next.click();
 		}
 	} catch (ElementClickInterceptedException e) {
 		System.out.println("catched exception");
 	}
+	 List<WebElement> ele =driver.findElements(By.xpath("//article[@class='jobTuple bgWhite br4 mb-8']"));
+	 System.out.println("size of the ele are: "+ele.size());
+	 for(WebElement element:ele) {
+		 element.getText();
+		 element.click();
+		 System.out.println("\n text present is:"+element.getText());
+	 }
+     driver.findElement(By.xpath("//article[@class='jobTuple bgWhite br4 mb-8'][last()]")).click();
+     Thread.sleep(5000);
 	
 	
 }
 
+@Then("enter {string}")
+public void enter(String string) {
+    
+	switch(string) {
+	case "username":
+		driver.findElement(By.name("userName")).sendKeys(string);
+		break;
+	case "password":
+		driver.findElement(By.name("password")).sendKeys(string);
+		break;
+	}
+}
 
 
-//@Then("click on the last job profile")
-//public void click_on_the_last_job_profile() {
-//	
-//	driver.findElement(By.xpath("")).click();
-//}
+@Then("click on signIn")
+public void click_on_sign_in() throws InterruptedException {
+   
+	driver.findElement(By.xpath("//input[@type='submit']")).click();
+	Thread.sleep(1000);
+	driver.findElement(By.xpath("//*[text()='SIGN-OFF']")).click();
+	Thread.sleep(1000);
+}
+@Then("get the no pages and click on tenth page from the pages")
+public void pages() throws InterruptedException {
+	Thread.sleep(5000);	
+	driver.findElement(By.xpath("//div[@class='crossIcon chatBot chatBot-ic-cross']")).click();
+	Thread.sleep(5000);
+	List <WebElement> pagescount = driver.findElements(By.xpath("//div[@class='fleft pages']//a"));
+	System.out.println("pagescount"+pagescount.size());
+	Thread.sleep(5000);
+	WebElement element = driver.findElement(By.xpath("//*[@class='fleft pages']/a[10]"));
+	JavascriptExecutor executor = (JavascriptExecutor)driver;
+	executor.executeScript("arguments[0].click();", element);
+	
+	Thread.sleep(1000);
+}
+
+@Then("click on first job profile")
+public void profile() {
+	driver.findElement(By.xpath("//article[@class='jobTuple bgWhite br4 mb-8'][1]")).click();
+}
+
+@Then("take screenshot")
+public void screenshot() throws InterruptedException, IOException{
+	Set<String> allWindowHandles = driver.getWindowHandles();
+	String window2 = allWindowHandles.toArray()[5].toString();
+	driver.switchTo().window(window2);
+	Thread.sleep(3000);
+	
+	
+
+	File  profile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+    FileUtils.copyFile(profile, new File("E:\\screenshots\\screenshotjobprofile1.png"));
+
+}
+
+
 
 
 

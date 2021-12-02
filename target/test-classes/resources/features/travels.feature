@@ -18,17 +18,21 @@
 #Sample Feature Definition Template
 Feature: Mercury hotel booking
 
-  #@hotel
-  #Scenario: Mercury travels hotel booking functionality
-  #Given url of mercury travels and verify the title
-  #Then  click on the hotels link and fill in the details
-  #And click on search hotels
+Background: Given url of mercury travels and verify the title
+
+  @hotel
+  Scenario: Mercury travels hotel booking functionality
+  
+  Then  click on the hotels link and fill in the details
+  And click on search hotels
+  
   @faq
   Scenario: Faq
-    Given url of mercury travels and verify the title
     Then mousehover on foriegn exchange
     And go to FAQ menu
     And click on 'Businees Travel'
     And click on 'Higher Studies'
     And click on 'Holiday Travel'
-  
+    
+      
+

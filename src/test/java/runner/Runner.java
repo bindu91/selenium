@@ -13,7 +13,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 	plugin = {"pretty","html:target/reports"},
 		features="src/test/resources/resources/features/",
 		glue= "",
-		tags ="@jobs"
+		tags ="@jobs1"
 	
 		)
 

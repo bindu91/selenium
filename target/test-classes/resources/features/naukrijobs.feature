@@ -16,27 +16,22 @@
 #""
 ## (Comments)
 #Sample Feature Definition Template
-
 Feature: Naukri job seraching functionality
- 
+
+  Background: 
+    Given when the url is provided  mousehover onjobs
+    And click on jobsby location
+    When switch to child window and enter  the skill and location  as chennai click on search
 
   @jobs
   Scenario: Job search
-    Given  when the url is provided  mousehover onjobs
-    And click on jobsby location
-    When switch to child window and enter  the skill and location  as chennai click on search 
-    And select the filter as last 3 days  and check the location as chennai 
-    And scroll down and click on next button  till disapear 
-    Then click on the last job profile
+    And select the filter as last 3 days  and check the location as chennai
+    And scroll down and click on next button  till disapears and click on last link
 
-#
-  #@tag2
-  #Scenario Outline: Title of your scenario outline
-    #Given I want to write a step with <name>
-    #When I check for the <value> in step
-    #Then I verify the <status> in step
-#
-    #Examples: 
-      #| name  | value | status  |
-      #| name1 |     5 | success |
-      #| name2 |     7 | Fail    |
+  @jobs1
+  Scenario: Job search for nth page
+  
+  Then get the no pages and click on tenth page from the pages
+  And click on first job profile
+  Then take screenshot
+   
