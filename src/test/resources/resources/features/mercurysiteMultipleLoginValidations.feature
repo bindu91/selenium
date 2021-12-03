@@ -15,6 +15,7 @@ Feature: Validate login module
       | bindu    | bindu    |
 
     @test2
-    Examples: 
+    Examples:  
+    @sources:src/test/resources/data_tables/temp.csv
       | username | password |
       | mahesh   | mahesh   |
